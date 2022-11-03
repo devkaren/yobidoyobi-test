@@ -1,0 +1,40 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    paths:
+        - infrastructure
+        - modules
+        - database
+        - tests
+    level: 6
+    ignoreErrors:
+        - '#Parameter (.*) of class (.*)Dto constructor expects (.*), (array\|string\|null|object\|string\|null) given.#'
+        - '#Access to an undefined property Infrastructure\\Eloquent\\Models\\(.*)::\$(.*).#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Collection<(.*)::\$(.*).#'
+        - '#Call to an undefined method Illuminate\\Database\Eloquent\\Collection<Illuminate\\Database\\Eloquent\\Model>|Illuminate\\Database\\Eloquent\\Model::(.*).#'
+        - '#Parameter(.*)of method(.*)(Builder|Relations\\)(.*) expects(.*),(.*) given.#'
+        - '#Call to an undefined method (.*)Builder::(.*).#'
+        - '#Call to an undefined static method Illuminate\\Support\\Carbon::tryParse\(\)#'
+        - '#Parameter(.*)of class(.*)Schema constructor expects(.*)given.#'
+        - '#(.*)expects(.*),Illuminate\\Database\\Eloquent\\Collection<Illuminate\\Database\\Eloquent\\Model>|Illuminate\\Database\\Eloquent\\Model given.#'
+        - '#Call to an undefined method Faker\\Generator::(.*)#'
+        - '#Call to an undefined method Illuminate\\Testing\\TestResponse::assert(.*).#'
+        - '#Parameter(.*)of method Illuminate\\Testing\\TestResponse::assertSee\(\) expects array\|string,(.*)given.#'
+        - '#Method(.*)should return(.*)but returns Illuminate\\Database\\Eloquent\\Collection<Illuminate\\Database\\Eloquent\\Model>|Illuminate\\Database\\Eloquent\\Model.#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::(.*)#'
+        - '#Method (.*)::schema\(\) has parameter \$resource with no type specified.#'
+        - '#Method (.*)::toSchema\(\) has parameter \$request with no type specified.#'
+        - '#Method (.*)::(via)\(\) has parameter \$notifiable with no type specified.#'
+    excludePaths:
+        - 'infrastructure/Exceptions/Handler.php'
+        - 'infrastructure/Eloquent/Macros'
+        - 'infrastructure/Carbon/Macros'
+        - 'infrastructure/Http/Responses/Macros'
+        - 'infrastructure/Google2FA/ServiceProvider.php'
+        - 'infrastructure/Http/Resources/Traits/ConvertsSchemaToArray.php'
+        - 'tests/Infrastructure/Eloquent/Macros'
+        - 'tests/Infrastructure/Google2FA/Impl/Google2FAServiceTest.php'
+        - 'tests/Utils/SchemaAssertions/AssertSchema.php'
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false

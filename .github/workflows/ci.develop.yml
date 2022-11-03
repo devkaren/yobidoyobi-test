@@ -1,0 +1,67 @@
+name: ci.develop
+on:
+  push:
+    branches: [develop]
+env:
+  RELEASE_SYMLINK: "/var/www/crm-dev"
+  RELEASE_BASE_DIR: "/home/app/releases"
+  PERSISTENT_DIR: "/home/app/persistent"
+jobs:
+  build:
+    name: CI
+    runs-on: dev-api
+    timeout-minutes: 15
+    steps:
+      - name: Prepare release environment
+        run: |
+          RELEASE_ID=$(date +%Y%m%d%H%M%S) \
+            && RELEASE_DIR="$RELEASE_BASE_DIR/$RELEASE_ID" \
+            && echo "RELEASE_ID=${RELEASE_ID}" >> $GITHUB_ENV \
+            && echo "RELEASE_DIR=${RELEASE_DIR}" >> $GITHUB_ENV \
+            && mkdir $RELEASE_DIR \
+            && echo "Releasing $RELEASE_ID"
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Move code to release directory
+        working-directory: ${{ env.RELEASE_BASE_DIR }}
+        run: |
+          cp -a $GITHUB_WORKSPACE/. ./$RELEASE_ID/
+
+      - name: Install application dependencies
+        working-directory: ${{ env.RELEASE_DIR }}
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Prepare application environment
+        working-directory: ${{ env.PERSISTENT_DIR }}
+        run: |
+          ln -s .env $RELEASE_DIR/.env
+
+      - name: Prepare application storage
+        working-directory: ${{ env.RELEASE_DIR }}
+        run: |
+          rm -rf ./storage \
+            && ln -s $PERSISTENT_DIR/storage/ ./storage
+
+      - name: Run CI scripts
+        working-directory: ${{ env.RELEASE_DIR }}
+        run: |
+          php artisan storage:link \
+            && php artisan app:ci -p
+
+      - name: Replace release symlink
+        run: |
+          sudo rm $RELEASE_SYMLINK \
+            && sudo ln -s $RELEASE_DIR $RELEASE_SYMLINK
+
+      - name: Restart application services
+        run: |
+          sudo service php8.1-fpm restart \
+            && sudo supervisorctl restart app-worker:*
+
+      - name: Cleanup old releases
+        working-directory: ${{ env.RELEASE_BASE_DIR }}
+        run: |
+          ls -1 -d * | sort -n -t _ -k 2 | head -n -2 | xargs sudo rm -rf

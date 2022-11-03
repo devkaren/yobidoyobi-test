@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT_DIR=$(dirname "$0")
+
+for NAMESPACE_DIR in $SCRIPT_DIR/../stages/* ; do
+    NAMESPACE=$(basename $NAMESPACE_DIR)
+
+    if [[ $(kubectl get namespace $NAMESPACE --ignore-not-found) ]]; then
+        echo "$NAMESPACE namespace already exist"
+    else
+        kubectl create -f "$NAMESPACE_DIR/namespace.yaml"
+    fi;
+done

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Namespace argument is required!"
+    exit 1
+fi
+
+
+SCRIPT_DIR=$(dirname "$0")
+NAMESPACE=$1
+NAMESPACE_DIRECTORY="$SCRIPT_DIR/../stages/$NAMESPACE"
+
+if [ ! -d $NAMESPACE_DIRECTORY ]; then
+    echo "$NAMESPACE namespace does not exist exists."
+    exit 1
+fi
+
+kubectl apply -k $NAMESPACE_DIRECTORY

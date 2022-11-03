@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" convertDeprecationsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
+    <testsuites>
+        <testsuite name="Infrastructure">
+            <directory suffix="Test.php">./tests/Infrastructure</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Modules">
+            <directory suffix="Test.php">./tests/Modules</directory>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./infrastructure</directory>
+            <directory suffix=".php">./modules</directory>
+            <director suffix=".php">./database/factories</director>
+            <directory suffix=".php">./database/seeders</directory>
+        </include>
+    </coverage>
+    <php>
+        <server name="APP_NAME" value="ORDER_API" />
+        <server name="APP_ENV" value="testing" />
+        <server name="APP_DEBUG" value="true" />
+        <server name="APP_KEY" value="base64:gjJp574l4cT1kYBQzDCQdmnTeZ9Pluu6vdYBkTcw4fo=" />
+        <server name="BCRYPT_ROUNDS" value="4" />
+        <server name="SMS_DRIVER" value="void" />
+        <server name="PUSH_DRIVER" value="void" />
+        <server name="CACHE_DRIVER" value="array" />
+        <server name="DB_CONNECTION" value="pgsql" />
+        <server name="MAIL_MAILER" value="array" />
+        <server name="QUEUE_CONNECTION" value="sync" />
+        <server name="TELESCOPE_ENABLED" value="false" />
+        <server name="L5_SWAGGER_GENERATE_ALWAYS" value="false" />
+        <server name="PASSPORT_PRIVATE_KEY" value="-----BEGIN PRIVATE KEY----- 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 FCnc0lf8mW89N6efe6+mOdpjncRFrKtn -----END PRIVATE KEY-----" />
+        <server name="PASSPORT_PUBLIC_KEY" value="-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA26YBB2omx5HI8vvxrXbt og6Nmc3faCuHDcxWOaKv/fZ2yDU0HGf+ZYU4XdyIY3XHBoIgWuDY0ynBdUl9wOPr m4I4/osG7rarA+/3ZLRn2JgnTiQA2i3gt/EN0cchdAQwxIyKr0HX+ADGfrHNXnui 15Ev5m3sh0xD8g0TWUOezSETdDLVdUwswDyxRHWDnIcFrJO95Zeu0jyd9L6/rmrD yve5qdrYchNZo32MXCGfBFF3AfTJ5yA4SjfkWqifRLl0wEjfFe1PczAUq+KnO7sA 8BMhLdf2iD3xPMaHPih10woX4UCYFpksquh62Cd437CuWentzqubZZb/y2VYfX9c Lmyvt+HqTm6+8uNgW1pJ+LUMnz2RUBlMjNUHnpQupmsUcPjfpjWrprV8hLd1u4sc 6s1ext+KNqHOWR2pDKhqQIVdplXbf6Zq0cdAeNgSFAx+WRvD+1gWwjof9vWnianL ab0HWGFpUZmQRZV+NpJEuzqjUsFfxZGNcocCV4AFgUtn0S/AvY9Pl3jqvCDnhPXZ QstD3yfR+PSnq5iWrJaLhKTujJxAJ4p1jlrO2bW3mlZrwWR1zxlUkZ7a1vAduzI4 FB2DW/YKoyR2IYtp9yY5n59poiQQSdsOUFamk6Am25nMlsEGJOLwZgwyPfQKN8z4 +2IFdy/KKVPnb+phxkt92D0CAwEAAQ== -----END PUBLIC KEY-----" />
+        <server name="WEB_EMAIL_VERIFICATION_URL" value="http://localhost/verifyEmail" />
+        <server name="WEB_RESET_PASSWORD_URL" value="http://localhost.test/resetPassword" />
+    </php>
+</phpunit>

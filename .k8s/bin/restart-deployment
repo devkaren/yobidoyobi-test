@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Namespace argument is required!"
+    exit 1
+fi
+
+NAMESPACE=$1
+
+kubectl rollout restart deployment app -n $NAMESPACE

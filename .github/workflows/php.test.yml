@@ -1,0 +1,66 @@
+name: php.test
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13.1
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, redis, bcmath, imagick
+          tools: composer:v2
+          coverage: pcov
+
+      - name: Composer validate
+        run: composer validate
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress
+
+      - name: Prepare application environment
+        run: |
+          echo 'DB_HOST=localhost' >> .env.testing
+          echo 'DB_PORT=5432' >> .env.testing
+          echo 'DB_DATABASE=test' >> .env.testing
+          echo 'DB_USERNAME=root' >> .env.testing
+          echo 'DB_PASSWORD=root' >> .env.testing
+
+      - name: Run tests
+        run: composer run-script test:coverage-cobertura
+
+      - uses: 5monkeys/cobertura-action@master
+        with:
+          path: coverage/cobertura.xml
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          minimum_coverage: 90
+          show_class_names: true
+          only_changed_files: true
+          skip_covered: true
+          show_line: true

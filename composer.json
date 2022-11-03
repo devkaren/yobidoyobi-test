@@ -1,0 +1,101 @@
+{
+    "name": "yobidoyobi/order",
+    "description": "Order API",
+    "type": "project",
+    "keywords": [
+        "backend",
+        "api"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Simonyan Karen",
+            "email": "developerkarensimonyan@gmail.com",
+            "homepage": "https://github.com/devkaren",
+            "role": "Team Lead"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "ext-imagick": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pgsql": "*",
+        "ext-redis": "*",
+        "bacon/bacon-qr-code": "^2.0",
+        "darkaonline/l5-swagger": "^8.3",
+        "doctrine/dbal": "^3.3",
+        "guzzlehttp/guzzle": "^7.4",
+        "laravel/framework": "^9.18",
+        "laravel/passport": "^10.4",
+        "laravel/socialite": "^5.5",
+        "laravel/tinker": "^2.7",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "pragmarx/google2fa-qrcode": "^3.0",
+        "pragmarx/recovery": "^0.2.1"
+    },
+    "require-dev": {
+        "brianium/paratest": "^6.5",
+        "fakerphp/faker": "^1.19",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "hamcrest/hamcrest-php": "^2.0",
+        "mockery/mockery": "^1.5",
+        "nunomaduro/collision": "^6.2",
+        "nunomaduro/larastan": "^2.1",
+        "phpunit/phpunit": "^9.5",
+        "spatie/laravel-ignition": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Modules\\": "modules/",
+            "Infrastructure\\": "infrastructure/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit"
+        ],
+        "test:coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -dpcov.directory=. ./vendor/bin/phpunit --coverage-html=./coverage"
+        ],
+        "test:coverage-cobertura": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -dpcov.directory=. ./vendor/bin/phpunit --coverage-cobertura=./coverage/cobertura.xml"
+        ],
+        "test:ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -dpcov.directory=. ./vendor/bin/phpunit --coverage-text --colors=never"
+        ],
+        "php-cs-fixer:fix": "./vendor/bin/php-cs-fixer fix ./infrastructure ./modules ./database ./tests --config=./.php-cs-fixer.php",
+        "phpstan": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpstan"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

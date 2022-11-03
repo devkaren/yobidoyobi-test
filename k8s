@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Command is required!"
+    exit 1
+fi
+
+SCRIPT_DIR=$(dirname "$0")
+COMMAND=$SCRIPT_DIR/.k8s/bin/$1
+ARGUMENTS=${@:2}
+
+if [ -f "$COMMAND" ]; then
+    eval "$COMMAND ${ARGUMENTS}"
+else
+    echo "Command $1 is not defined!"
+    exit 1
+fi
