@@ -18,10 +18,11 @@ For composer platform requirements run `composer check-platform-reqs` command.
 
 ## Installation
 
--   Run `composer install` command.
--   Setup [Application environment](#application-environment).
--   Setup [Web Configurations](#web-configurations).
--   Run `php artisan app:install` command.
+- Run `composer install` command.
+- Setup [Application environment](#application-environment).
+- Setup [Web Configurations](#web-configurations).
+- Run `php artisan app:install` command.
+- Then you need to get second created `client_id` and `client_secret` from cmd, after execute command `php artisan app:install` for using swagger
 
 **IMPORTANT!** The `php artisan app:install` command is designed only for initial project installation. It drops and rebuilds the database schema, configurations and application cache.
 
@@ -68,6 +69,12 @@ Following utility commands are available for use:
 ## HTTP
 
 See the latest **API DOCUMENTATION** using `/docs` uri.
+For authorize to swagger you need:
+`client_id`
+`client_secret`
+`username from .env`
+`password from .env`
+`Client credentials location: Request Body`
 
 ## Testing
 
